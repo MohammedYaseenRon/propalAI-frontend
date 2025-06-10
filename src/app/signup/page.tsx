@@ -7,6 +7,10 @@ import Link from 'next/link';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
+import axios from "axios";
+import { headers } from 'next/headers';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 interface Signup {
     fullName: string,
@@ -23,6 +27,9 @@ const SignupPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [agreeToTerms, setAgreeToTerms] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState("");
+    const router = useRouter();
+
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -31,8 +38,24 @@ const SignupPage = () => {
             [name]: value
         }))
     }
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setError("");
+
+        try {
+            const response = await axios.post("/api/signup", formData);
+            if (response.status == 201) {
+                toast.success("Signup successfull");
+                router.push("/login");
+                localStorage.setItem('user', JSON.stringify(response.data.user));
+            } else {
+                toast.error(response.data.error || "Signup failed");
+            }
+        } catch (error:any) {
+            const message = error.response?.data?.error || "Server error";
+            toast.error(message);
+            setError(message);
+        }
     }
 
     return (
@@ -73,7 +96,7 @@ const SignupPage = () => {
                                     value={formData.email}
                                     onChange={handleInputChange}
                                     required
-                                    className="bg-gray-20"
+                                    className="bg-gray-20 text-white placeholder-white"
                                 />
                             </div>
                             <div className="space-y-2">
@@ -87,7 +110,7 @@ const SignupPage = () => {
                                         value={formData.password}
                                         onChange={handleInputChange}
                                         required
-                                        className="bg-gray-20"
+                                        className="bg-gray-20 text-white placeholder-white"
                                     />
                                     <Button
                                         type="button"
@@ -119,7 +142,7 @@ const SignupPage = () => {
                             </div>
                             <Button
                                 type="submit"
-                                className="w-full bg-white text-black hover:bg-gray-200"
+                                className="w-full bg-white text-black hover:bg-gray-200 cursor-pointer"
                                 disabled={isLoading}
                             >
                                 {isLoading ? 'Creating account...' : 'Create account'}

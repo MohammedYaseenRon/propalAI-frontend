@@ -19,11 +19,6 @@ import { usePathname } from "next/navigation";
 
 const menuItems = [
   {
-    title: "Dashboard",
-    url: "/dashboard",
-    icon: LayoutDashboard,
-  },
-  {
     title: "Profile",
     url: "/profile", 
     icon: User,
@@ -55,7 +50,6 @@ export function AppSidebar() {
           </div>
           <div>
             <h2 className="text-lg font-semibold text-sidebar-foreground">Dashboard</h2>
-            <p className="text-xs text-sidebar-foreground/60">Admin Panel</p>
           </div>
         </motion.div>
       </SidebarHeader>
@@ -120,8 +114,8 @@ export function AppSidebar() {
             <div className="w-3 h-3 bg-primary rounded-full" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-sidebar-foreground">Admin User</p>
-            <p className="text-xs text-sidebar-foreground/60 truncate">admin@example.com</p>
+            <p className="text-sm font-medium text-sidebar-foreground">User</p>
+            <p className="text-xs text-sidebar-foreground/60 truncate">user@example.com</p>
           </div>
         </motion.div>
       </SidebarFooter>

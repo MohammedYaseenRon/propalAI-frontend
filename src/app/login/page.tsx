@@ -6,7 +6,9 @@ import { ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Checkbox } from '@/components/ui/checkbox';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 interface Login {
     email: string;
@@ -18,8 +20,8 @@ const LoginPage = () => {
         email: "",
         password: "",
     });
+    const router = useRouter();
     const [showPassword, setShowPassword] = useState(false);
-    const [agreeToTerms, setAgreeToTerms] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,8 +31,19 @@ const LoginPage = () => {
             [name]: value
         }))
     }
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        try{
+            const response = await axios.post("/api/login", formData);
+            if(response.status == 200) {
+                toast.success('Login successfull');
+                localStorage.setItem("user", JSON.stringify(response.data.user));
+                router.push("/dashboard");
+            }
+        }catch(error) {
+            console.log("Error while logging in");
+            toast.error("Login error");
+        }
     }
 
     return (
@@ -59,7 +72,7 @@ const LoginPage = () => {
                                     value={formData.email}
                                     onChange={handleInputChange}
                                     required
-                                    className="bg-gray-20"
+                                    className="bg-gray-20 text-white"
                                 />
                             </div>
                             <div className="space-y-2">
@@ -73,7 +86,7 @@ const LoginPage = () => {
                                         value={formData.password}
                                         onChange={handleInputChange}
                                         required
-                                        className="bg-gray-20"
+                                        className="bg-gray-20 text-white"
                                     />
                                     <Button
                                         type="button"
@@ -92,7 +105,7 @@ const LoginPage = () => {
                             </div>
                             <Button
                                 type="submit"
-                                className="w-full bg-white text-black hover:bg-gray-200"
+                                className="w-full bg-white text-black hover:bg-gray-200 cursor-pointer"
                                 disabled={isLoading}
                             >
                                 {isLoading ? 'Siging in...' : 'Sign in'}
