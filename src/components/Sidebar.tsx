@@ -1,5 +1,5 @@
 "use client";
-import { LayoutDashboard, LayoutList, Menu, User } from "lucide-react";
+import { Menu, User } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -11,7 +11,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
   SidebarHeader,
   SidebarFooter,
 } from "@/components/ui/sidebar";

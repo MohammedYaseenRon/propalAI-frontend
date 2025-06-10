@@ -1,4 +1,4 @@
-import { ArrowRight, Link, Sparkles } from 'lucide-react'
+import { ArrowRight, Sparkles } from 'lucide-react'
 import React from 'react'
 import { Button } from './ui/button'
 

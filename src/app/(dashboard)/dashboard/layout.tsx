@@ -18,7 +18,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         if (!user) {
             router.push('/login');
         }
-    }, []);
+    }, [router]);
 
     return (
         <SidebarProvider>

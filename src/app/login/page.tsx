@@ -33,6 +33,7 @@ const LoginPage = () => {
     }
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsLoading(true);
         try{
             const response = await axios.post("/api/login", formData);
             if(response.status == 200) {
@@ -41,7 +42,7 @@ const LoginPage = () => {
                 router.push("/dashboard");
             }
         }catch(error) {
-            console.log("Error while logging in");
+            console.log("Error while logging in", error);
             toast.error("Login error");
         }
     }
@@ -113,7 +114,7 @@ const LoginPage = () => {
                         </form>
 
                         <div className="text-center">
-                            <span className="text-muted-foreground">Don't have an account? </span>
+                            <span className="text-muted-foreground">Don&apos;t have an account? </span>
                             <Link href="/signup" className="text-white hover:text-blue-600 transition-colors font-medium">
                                 Sign up
                             </Link>

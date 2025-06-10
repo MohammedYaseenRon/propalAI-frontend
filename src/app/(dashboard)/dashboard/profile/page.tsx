@@ -56,8 +56,9 @@ const ProfilePage = () => {
         setEditMode(false);
         toast.success('Profile updated!');
       }
-    } catch (error: any) {
-      toast.error(error.response?.data?.error || 'Update failed');
+    } catch (error) {
+      console.log("Errow while updating profile", error)
+      toast.error('Update failed');
     }
   }
 

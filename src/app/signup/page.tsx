@@ -8,7 +8,6 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import axios from "axios";
-import { headers } from 'next/headers';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 
@@ -40,7 +39,8 @@ const SignupPage = () => {
     }
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError("");
+        setIsLoading(true);
+
 
         try {
             const response = await axios.post("/api/signup", formData);
@@ -51,10 +51,11 @@ const SignupPage = () => {
             } else {
                 toast.error(response.data.error || "Signup failed");
             }
-        } catch (error:any) {
-            const message = error.response?.data?.error || "Server error";
-            toast.error(message);
-            setError(message);
+        } catch (error) {
+            setError(`Signup failed: ${error}`);
+            toast.error("Signup failed");
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -148,6 +149,7 @@ const SignupPage = () => {
                                 {isLoading ? 'Creating account...' : 'Create account'}
                             </Button>
                         </form>
+                          {error && <p className="text-red-500 text-sm">{error}</p>}  
 
                         <div className="text-center">
                             <span className="text-muted-foreground">Already have an account? </span>
