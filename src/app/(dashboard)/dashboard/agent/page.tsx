@@ -34,11 +34,37 @@ const AgentPage = () => {
       .then((res) => res.json())
       .then((data: STTConfig) => {
         setConfig(data.stt);
+
+        const saved = localStorage.getItem("sttSelection");
+        if (saved) {
+          const { provider, model, language } = JSON.parse(saved);
+          const foundProvider = data.stt.find(p => p.value === provider);
+          const foundModel = foundProvider?.models.find(m => m.value === model);
+          const foundLanguage = foundModel?.languages.find(l => l.value === language);
+
+
+          setSelectedProvider(foundProvider || null);
+          setSelectedModel(foundModel || null);
+          setSelectedLanguage(foundLanguage || null);
+        }
       })
       .catch((err) => {
         console.error('Failed to load STT config:', err);
       });
   }, []);
+
+  useEffect(() => {
+    if (selectedProvider && selectedModel && selectedLanguage) {
+      localStorage.setItem(
+        "sttSelection",
+        JSON.stringify({
+          provider: selectedProvider.value,
+          model: selectedModel.value,
+          language: selectedLanguage.value,
+        })
+      );
+    }
+  }, [selectedProvider, selectedModel, selectedLanguage]);
 
   const handleProviderChange = (value: string) => {
     const provider = config.find(p => p.value === value);
@@ -63,7 +89,7 @@ const AgentPage = () => {
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 w-full max-w-9xl mx-auto'>
         <div>
           <Label className='mb-1 block text-md'>Provider</Label>
-          <Select onValueChange={handleProviderChange}>
+          <Select onValueChange={handleProviderChange} value={selectedProvider?.value}>
             <SelectTrigger className='w-full h-12'>
               <SelectValue placeholder="Select a provider" />
             </SelectTrigger>
@@ -78,7 +104,7 @@ const AgentPage = () => {
         </div>
         <div>
           <Label className='mb-1 block text-md'>Model</Label>
-          <Select onValueChange={handleModelChange} disabled={!selectedProvider}>
+          <Select onValueChange={handleModelChange} value={selectedModel?.value} disabled={!selectedProvider}>
             <SelectTrigger className='w-full h-12'>
               <SelectValue placeholder="Select a Model" />
             </SelectTrigger>
@@ -93,7 +119,7 @@ const AgentPage = () => {
         </div>
         <div>
           <Label className='mb-1 block text-md'>Language</Label>
-          <Select onValueChange={handleLanguageChange}>
+          <Select onValueChange={handleLanguageChange} value={selectedLanguage?.value} disabled={!selectedModel}>
             <SelectTrigger className='w-full h-12'>
               <SelectValue placeholder="Select a language" />
             </SelectTrigger>
@@ -108,13 +134,23 @@ const AgentPage = () => {
         </div>
       </div>
       {selectedProvider && selectedModel && selectedLanguage && (
-        <Card>
-          <CardContent className="p-4">
-            <p><strong>Provider: </strong> {selectedProvider.name} (<code>{selectedProvider.value}</code>)</p>
-            <p><strong>Model: </strong> {selectedModel.name} (<code>{selectedModel.value}</code>)</p>
-            <p><strong>Language: </strong> {selectedLanguage.name} (<code>{selectedLanguage.value}</code>)</p>
+        <Card className="shadow-lg rounded-2xl border border-gray-200 bg-white">
+          <CardContent className="p-6 space-y-3 text-gray-800">
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Provider:</p>
+              <p className="text-lg font-medium">{selectedProvider?.name} <span className="text-sm text-gray-500">({selectedProvider?.value})</span></p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Model:</p>
+              <p className="text-lg font-medium">{selectedModel?.name} <span className="text-sm text-gray-500">({selectedModel?.value})</span></p>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-600">Language:</p>
+              <p className="text-lg font-medium">{selectedLanguage?.name} <span className="text-sm text-gray-500">({selectedLanguage?.value})</span></p>
+            </div>
           </CardContent>
         </Card>
+
       )
       }
     </div >

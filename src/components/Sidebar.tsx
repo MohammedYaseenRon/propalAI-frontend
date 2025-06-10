@@ -20,12 +20,12 @@ import { usePathname } from "next/navigation";
 const menuItems = [
   {
     title: "Profile",
-    url: "/profile", 
+    url: "/dashboard/profile", 
     icon: User,
   },
   {
     title: "Agent",
-    url: "/agent", 
+    url: "/dashboard/agent", 
     icon: User,
   },
   
@@ -57,10 +57,10 @@ export function AppSidebar() {
       <SidebarContent className="p-4">
         <SidebarGroup>
           <SidebarGroupLabel className="text-sidebar-foreground/80 font-medium mb-2">
-            Navigation
+            
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="space-y-3">
               {menuItems.map((item, index) => {
                 const isActive = pathname === item.url;
                 return (
@@ -73,7 +73,7 @@ export function AppSidebar() {
                     >
                       <SidebarMenuButton 
                         asChild 
-                        className={`relative group transition-all duration-200 ${
+                        className={`relative group transition-all duration-200 border ${
                           isActive 
                             ? 'bg-primary text-primary-foreground shadow-md' 
                             : 'hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'

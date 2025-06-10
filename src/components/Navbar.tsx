@@ -22,9 +22,9 @@ const Navbar = () => {
                         </div>
                     </div>
                     <div className='flex items-center space-x-4 hidden md:block'>
-                        <button className='text-white cursor-pointer text-md px-3 py-2 bg-black rounded-xl hover:bg-gray-900 hover:opacity-100 transition-opacity'>
+                        <Link href="/login"><button className='text-white cursor-pointer text-md px-3 py-2 bg-black rounded-xl hover:bg-gray-900 hover:opacity-100 transition-opacity'>
                             Login
-                        </button>
+                        </button></Link>
                         <Link href='/signup'><button className='text-white cursor-pointer text-md px-3 py-2 bg-black rounded-xl hover:bg-gray-900 border'>
                             Signup
                         </button></Link>
@@ -45,12 +45,12 @@ const Navbar = () => {
                         <h2 className="text-white hover:text-blue-400 transition-colors px-3 py-2 rounded-md text-md font-medium">Contact</h2>
                     </div>
                     <div className='flex items-center space-x-4'>
-                        <button className='text-white cursor-pointer text-md px-3 py-2 bg-black rounded-xl hover:bg-gray-900 hover:opacity-100 transition-opacity'>
+                        <Link href='/login'><button className='text-white cursor-pointer text-md px-3 py-2 bg-black rounded-xl hover:bg-gray-900 hover:opacity-100 transition-opacity'>
                             Login
-                        </button>
-                        <button className='text-white cursor-pointer text-md px-3 py-2 bg-black rounded-xl hover:bg-gray-900 border'>
+                        </button></Link>
+                        <Link href="/signup"><button className='text-white cursor-pointer text-md px-3 py-2 bg-black rounded-xl hover:bg-gray-900 border'>
                             Signup
-                        </button>
+                        </button></Link>
                     </div>
                 </div>
             )}

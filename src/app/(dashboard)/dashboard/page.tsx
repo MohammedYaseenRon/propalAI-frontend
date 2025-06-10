@@ -1,9 +1,14 @@
 import React from 'react'
 
-const page = () => {
+const Dashboard = () => {
   return (
-    <div>page</div>
+    <div className='p-4'>
+        <div>
+            <h1 className='text-4xl font-medium'>Main Dashboard Page</h1>
+            <p className='text-lg font-semibold'>There are two pages</p>
+        </div>
+    </div>
   )
 }
 
-export default page
+export default Dashboard

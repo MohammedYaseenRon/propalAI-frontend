@@ -62,7 +62,8 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className='p-4'>
+    <div className='p-6'>
+
       {!editMode ? (
         <div>
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
